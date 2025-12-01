@@ -1,11 +1,16 @@
 CUDA_VISIBLE_DEVICES="0" \
 python train.py \
 --hiera_path "sam2_hiera_large.pt" \
---train_image_path "/home/yousof/Fine-Tuning-SAM2-UNet-for-Breast-Image-Segmentation-Without-Pectoral-Muscle-and-Artifacts/sam_data/train/images/" \
---train_mask_path "/home/yousof/Fine-Tuning-SAM2-UNet-for-Breast-Image-Segmentation-Without-Pectoral-Muscle-and-Artifacts/sam_data/train/masks/" \
---val_image_path "/home/yousof/Fine-Tuning-SAM2-UNet-for-Breast-Image-Segmentation-Without-Pectoral-Muscle-and-Artifacts/sam_data/val/images/" \
---val_mask_path "/home/yousof/Fine-Tuning-SAM2-UNet-for-Breast-Image-Segmentation-Without-Pectoral-Muscle-and-Artifacts/sam_data/val/masks/" \
---save_path "checkpoint" \
---epoch 50 \
---lr 0.005 \
---batch_size 4
+--train_image_path "sam_data_multiclass/train/images/" \
+--train_mask_path "sam_data_multiclass/train/masks/" \
+--val_image_path "sam_data_multiclass/val/images/" \
+--val_mask_path "sam_data_multiclass/val/masks/" \
+--save_path "checkpoints/" \
+--num_classes 7 \
+--input_size 512 \
+--epoch 20 \
+--batch_size 6 \
+--lr 0.001
+  
+
+
