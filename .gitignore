@@ -3,5 +3,12 @@ sam2_hiera_small.pt
 sam2_hiera_tiny.pt
 sam_data/
 sam_data/**
+sam_data_multiclass/
+sam_data_multiclass/**
 spondy-24/
 spondy-24/**
+checkpoints/
+checkpoints/**
+checkpoint/
+checkpoint/**
+testing.ipynb
