@@ -1,3 +1,7 @@
+******
+This project is based on [Fine-Tuning-SAM2-UNet-for-Breast-Image-Segmentation](https://github.com/Jabonsote/Fine-Tuning-SAM2-UNet-for-Breast-Image-Segmentation-Without-Pectoral-Muscle-and-Artifacts?tab=readme-ov-file) and has been modified to support semantic multi-class segmentation.
+*****
+
 ## [SAM2-UNet: Segment Anything 2 Makes Strong Encoder for Natural and Medical Image Segmentation](https://arxiv.org/abs/2408.08870)
 Xinyu Xiong, Zihuang Wu, Shuangyi Tan, Wenxue Li, Feilong Tang, Ying Chen, Siying Li, Jie Ma, Guanbin Li
 
