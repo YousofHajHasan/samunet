@@ -41,9 +41,6 @@ class Up(nn.Module):
 
         x1 = F.pad(x1, [diffX // 2, diffX - diffX // 2,
                         diffY // 2, diffY - diffY // 2])
-        # if you have padding issues, see
-        # https://github.com/HaiyongJiang/U-Net-Pytorch-Unstructured-Buggy/commit/0e854509c2cea854e247a9c615f175f76fbb2e3a
-        # https://github.com/xiaopeng-liao/Pytorch-UNet/commit/8ebac70e633bac59fc22bb5195e513d5832fb3bd
         x = torch.cat([x2, x1], dim=1)
         return self.conv(x)
 
@@ -122,8 +119,12 @@ class RFB_modified(nn.Module):
 
 
 class SAM2UNet(nn.Module):
-    def __init__(self, checkpoint_path=None) -> None:
+    def __init__(self, checkpoint_path=None, num_classes=7) -> None:
         super(SAM2UNet, self).__init__()    
+        
+        # Store num_classes
+        self.num_classes = num_classes
+        
         model_cfg = "sam2_hiera_l.yaml"
         if checkpoint_path:
             model = build_sam2(model_cfg, checkpoint_path)
@@ -157,9 +158,11 @@ class SAM2UNet(nn.Module):
         self.up2 = (Up(128, 64))
         self.up3 = (Up(128, 64))
         self.up4 = (Up(128, 64))
-        self.side1 = nn.Conv2d(64, 1, kernel_size=1)
-        self.side2 = nn.Conv2d(64, 1, kernel_size=1)
-        self.head = nn.Conv2d(64, 1, kernel_size=1)
+        
+        # CHANGED: Output heads now predict num_classes instead of 1
+        self.side1 = nn.Conv2d(64, num_classes, kernel_size=1)
+        self.side2 = nn.Conv2d(64, num_classes, kernel_size=1)
+        self.head = nn.Conv2d(64, num_classes, kernel_size=1)
 
     def forward(self, x):
         x1, x2, x3, x4 = self.encoder(x)
@@ -175,7 +178,10 @@ class SAM2UNet(nn.Module):
 
 if __name__ == "__main__":
     with torch.no_grad():
-        model = SAM2UNet().cuda()
-        x = torch.randn(1, 3, 352, 352).cuda()
+        # Test with 7 classes
+        model = SAM2UNet(num_classes=7).cuda()
+        x = torch.randn(1, 3, 512, 512).cuda()
         out, out1, out2 = model(x)
-        print(out.shape, out1.shape, out2.shape)
+        print(f"Input shape: {x.shape}")
+        print(f"Output shapes: {out.shape}, {out1.shape}, {out2.shape}")
+        print(f"Expected: [1, 7, 512, 512] for all outputs")
